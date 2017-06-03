@@ -8,11 +8,20 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    private var items:[String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.tableView.dataSource = self
+        self.tableView.separatorStyle = .none
+        self.tableView.showsVerticalScrollIndicator = false
+        
+        self.tableView.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
+
+        items = ["aaa", "bbb", "ccc", "ddd", "eee", "fff"]
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +29,15 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        cell.textLabel?.text = items[indexPath.row]
+        cell.contentView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+        return cell
+    }
 }
 
